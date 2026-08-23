@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>List Shuffler — Randomize the Order of Any List Free</title>
+<meta name="description" content="Paste a list and shuffle it into a random order. Free online list shuffler for teams, seating charts, running order, and more. No sign-up required.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<nav class="crumb" aria-label="Breadcrumb">
+  <a href="../index.html">The Toolbox</a><span class="sep">/</span><span class="here">List Shuffler</span>
+</nav>
+
+<header class="site-head">
+  <div class="wrap">
+    <div class="eyebrow">Tool 02</div>
+    <h1>List <em>Shuffler</em></h1>
+    <p class="sub">Randomize the order of any list — teams, seating, running order. One click, new order.</p>
+  </div>
+</header>
+
+<main class="card-stage">
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>Shuffle your list</h2>
+        <p>Every item stays, only the order changes.</p>
+      </div>
+      <span class="card-tag">02 / no login</span>
+    </div>
+    <label class="field-label" for="shuffler-input">Your list (one per line)</label>
+    <textarea id="shuffler-input" rows="6" placeholder="Alex&#10;Bri&#10;Cass&#10;Deja">Alex
+Bri
+Cass
+Deja
+Emil
+Farah</textarea>
+    <div class="row">
+      <button class="btn rust" id="shuffler-go">Shuffle</button>
+      <button class="btn ghost" id="shuffler-copy">Copy result</button>
+    </div>
+    <div class="output-block">
+      <div class="stamp" id="shuffler-stamp">Shuffled</div>
+      <div class="result-box" id="shuffler-result">Shuffled order appears here.</div>
+    </div>
+  </section>
+
+  <div class="ad-zone infeed" aria-hidden="true">Ad slot — in-feed, native</div>
+</main>
+
+<section class="seo-content">
+  <div class="grid">
+    <div>
+      <h2>How the list shuffler works</h2>
+      <p>Paste your list, one entry per line, and press "Shuffle." The tool reorders every line into a new random sequence using a Fisher–Yates shuffle, which gives every possible order an equal chance of appearing.</p>
+      <p>Nothing is added or removed — the shuffled list has exactly the same items you entered, just in a new order. Copy the result with one click once you're happy with it.</p>
+      <h3>Common uses</h3>
+      <ul>
+        <li>Setting a random speaking or presentation order</li>
+        <li>Assigning random team pairings or draft order</li>
+        <li>Randomizing a seating chart or turn order for a game</li>
+        <li>Mixing up a playlist or reading list order</li>
+      </ul>
+    </div>
+    <div>
+      <dl class="faq">
+        <h3>FAQ</h3>
+        <dt>Will the shuffle ever return the same order I entered?</dt>
+        <dd>It's possible, especially with very short lists, since every order (including the original) has an equal chance.</dd>
+        <dt>Can I shuffle the same list again?</dt>
+        <dd>Yes — press "Shuffle" again for a fresh random order at any time.</dd>
+        <dt>Is my list stored anywhere?</dt>
+        <dd>No. The shuffle happens entirely in your browser and nothing is saved or sent anywhere.</dd>
+      </dl>
+      <div class="ad-zone sidebar" aria-hidden="true">Ad slot — sidebar, 300×250</div>
+    </div>
+  </div>
+
+  <div class="related">
+    <h3>Other tools in the drawer</h3>
+    <div class="related-links">
+      <a href="random-list-picker.html">Random List Picker</a>
+      <a href="word-counter.html">Word &amp; Character Counter</a>
+      <a href="case-converter.html">Case Converter</a>
+      <a href="../index.html">All tools</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-foot">
+  The Toolbox · Built with plain JS · No accounts, no tracking pixels, just the tool.
+</footer>
+
+<script>
+(function(){
+  function parseLines(text){ return text.split('\n').map(s => s.trim()).filter(Boolean); }
+  function flashStamp(el){ el.classList.remove('show'); void el.offsetWidth; el.classList.add('show'); }
+
+  const shufflerInput = document.getElementById('shuffler-input');
+  const shufflerResult = document.getElementById('shuffler-result');
+  const shufflerStamp = document.getElementById('shuffler-stamp');
+
+  document.getElementById('shuffler-go').addEventListener('click', () => {
+    const items = parseLines(shufflerInput.value);
+    if(!items.length){
+      shufflerResult.textContent = 'Add at least one item first.';
+      return;
+    }
+    for(let i = items.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [items[i], items[j]] = [items[j], items[i]];
+    }
+    shufflerResult.textContent = items.join('\n');
+    flashStamp(shufflerStamp);
+  });
+
+  document.getElementById('shuffler-copy').addEventListener('click', () => {
+    navigator.clipboard?.writeText(shufflerResult.textContent || '');
+  });
+})();
+</script>
+
+</body>
+</html>

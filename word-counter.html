@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word &amp; Character Counter — Free Live Text Counter</title>
+<meta name="description" content="Count words, characters, sentences, and estimated read time as you type. Free live word and character counter with no sign-up.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<nav class="crumb" aria-label="Breadcrumb">
+  <a href="../index.html">The Toolbox</a><span class="sep">/</span><span class="here">Word &amp; Character Counter</span>
+</nav>
+
+<header class="site-head">
+  <div class="wrap">
+    <div class="eyebrow">Tool 03</div>
+    <h1>Word &amp; <em>Character Counter</em></h1>
+    <p class="sub">Live counts as you type. Useful for captions, essays, and character-limited posts.</p>
+  </div>
+</header>
+
+<main class="card-stage">
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>Count your text</h2>
+        <p>Stats update instantly as you type or paste.</p>
+      </div>
+      <span class="card-tag">03 / no login</span>
+    </div>
+    <label class="field-label" for="counter-input">Your text</label>
+    <textarea id="counter-input" rows="7" placeholder="Paste or type your text here...">Type or paste text here to see live stats.</textarea>
+    <div class="stat-grid">
+      <div class="stat"><div class="n" id="stat-words">0</div><div class="l">Words</div></div>
+      <div class="stat"><div class="n" id="stat-chars">0</div><div class="l">Characters</div></div>
+      <div class="stat"><div class="n" id="stat-chars-ns">0</div><div class="l">No spaces</div></div>
+      <div class="stat"><div class="n" id="stat-sentences">0</div><div class="l">Sentences</div></div>
+      <div class="stat"><div class="n" id="stat-read">0s</div><div class="l">Read time</div></div>
+    </div>
+  </section>
+
+  <div class="ad-zone infeed" aria-hidden="true">Ad slot — in-feed, native</div>
+</main>
+
+<section class="seo-content">
+  <div class="grid">
+    <div>
+      <h2>How the word and character counter works</h2>
+      <p>Type or paste text into the box and every stat below it updates live: word count, total characters, characters excluding spaces, sentence count, and an estimated read time based on an average reading speed of 200 words per minute.</p>
+      <p>It's built for situations with a hard limit — a tweet, a meta description, a college essay word count, or a video caption — where you need an exact, instant count rather than opening a full word processor.</p>
+      <h3>Common uses</h3>
+      <ul>
+        <li>Checking essay or assignment word counts before submitting</li>
+        <li>Staying under character limits for social posts or ad copy</li>
+        <li>Estimating how long a script or speech will take to read aloud</li>
+        <li>Cleaning up text length for meta descriptions and titles</li>
+      </ul>
+    </div>
+    <div>
+      <dl class="faq">
+        <h3>FAQ</h3>
+        <dt>How is read time calculated?</dt>
+        <dd>Using an average reading speed of 200 words per minute, rounded to the nearest second or minute.</dd>
+        <dt>How is a sentence counted?</dt>
+        <dd>The tool counts groups of text ending in a period, question mark, or exclamation point.</dd>
+        <dt>Is my text saved anywhere?</dt>
+        <dd>No — counting happens locally in your browser and nothing is uploaded.</dd>
+      </dl>
+      <div class="ad-zone sidebar" aria-hidden="true">Ad slot — sidebar, 300×250</div>
+    </div>
+  </div>
+
+  <div class="related">
+    <h3>Other tools in the drawer</h3>
+    <div class="related-links">
+      <a href="random-list-picker.html">Random List Picker</a>
+      <a href="list-shuffler.html">List Shuffler</a>
+      <a href="case-converter.html">Case Converter</a>
+      <a href="../index.html">All tools</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-foot">
+  The Toolbox · Built with plain JS · No accounts, no tracking pixels, just the tool.
+</footer>
+
+<script>
+(function(){
+  const counterInput = document.getElementById('counter-input');
+  const statWords = document.getElementById('stat-words');
+  const statChars = document.getElementById('stat-chars');
+  const statCharsNS = document.getElementById('stat-chars-ns');
+  const statSentences = document.getElementById('stat-sentences');
+  const statRead = document.getElementById('stat-read');
+
+  function updateCounts(){
+    const text = counterInput.value;
+    const words = text.trim().length ? text.trim().split(/\s+/).length : 0;
+    const chars = text.length;
+    const charsNS = text.replace(/\s/g, '').length;
+    const sentences = (text.match(/[.!?]+(\s|$)/g) || []).length;
+    const wpm = 200;
+    const seconds = Math.round((words / wpm) * 60);
+    statWords.textContent = words;
+    statChars.textContent = chars;
+    statCharsNS.textContent = charsNS;
+    statSentences.textContent = sentences;
+    statRead.textContent = seconds < 60 ? seconds + 's' : Math.round(seconds/60) + 'm';
+  }
+  counterInput.addEventListener('input', updateCounts);
+  updateCounts();
+})();
+</script>
+
+</body>
+</html>

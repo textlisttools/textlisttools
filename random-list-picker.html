@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Random List Picker — Pick a Random Name or Item Free</title>
+<meta name="description" content="Paste a list of names, items, or options and pull a random winner. Free random list picker with no sign-up — great for raffles, giveaways, and group decisions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<nav class="crumb" aria-label="Breadcrumb">
+  <a href="../index.html">The Toolbox</a><span class="sep">/</span><span class="here">Random List Picker</span>
+</nav>
+
+<header class="site-head">
+  <div class="wrap">
+    <div class="eyebrow">Tool 01</div>
+    <h1>Random <em>List Picker</em></h1>
+    <p class="sub">Enter one item per line and pull a random winner. No login, no limits, nothing saved.</p>
+  </div>
+</header>
+
+<main class="card-stage">
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>Pick a random item</h2>
+        <p>Works for names, prizes, restaurants, chores — anything you can list.</p>
+      </div>
+      <span class="card-tag">01 / no login</span>
+    </div>
+    <label class="field-label" for="picker-input">Your list (one per line)</label>
+    <textarea id="picker-input" rows="6" placeholder="Item one&#10;Item two&#10;Item three">Honeycombs
+Honey Nut Cheerios
+Cocoa Puffs
+Raisin Bran</textarea>
+    <div class="row">
+      <button class="btn rust" id="picker-go">Pick one</button>
+      <button class="btn ghost" id="picker-clear">Clear</button>
+    </div>
+    <div class="output-block">
+      <div class="stamp" id="picker-stamp">Selected</div>
+      <div class="result-box" id="picker-result">Your pick appears here.</div>
+    </div>
+  </section>
+
+  <div class="ad-zone infeed" aria-hidden="true">Ad slot — in-feed, native</div>
+</main>
+
+<section class="seo-content">
+  <div class="grid">
+    <div>
+      <h2>How the random list picker works</h2>
+      <p>Type or paste your options into the box above, one per line, then press "Pick one." The tool uses your browser's random number generator to select a single item from the list with equal odds for every entry — no item is weighted more than another.</p>
+      <p>Nothing you type is uploaded or stored. The whole thing runs in your browser, so you can use it for anything from picking a winner out of raffle entries to deciding what to make for dinner.</p>
+      <h3>Common uses</h3>
+      <ul>
+        <li>Choosing a winner from a list of giveaway or contest entries</li>
+        <li>Picking who goes first in a game or activity</li>
+        <li>Deciding between a shortlist of restaurants, movies, or names</li>
+        <li>Randomly assigning a task, prize, or role from a list</li>
+      </ul>
+    </div>
+    <div>
+      <dl class="faq">
+        <h3>FAQ</h3>
+        <dt>Is every item equally likely to be picked?</dt>
+        <dd>Yes. Each line has the same chance of being selected, regardless of order.</dd>
+        <dt>Is there a limit to how many items I can add?</dt>
+        <dd>No hard limit — very long lists (thousands of lines) may just take a moment longer to process.</dd>
+        <dt>Does this save or share my list?</dt>
+        <dd>No. Everything runs locally in your browser and nothing is sent anywhere.</dd>
+      </dl>
+      <div class="ad-zone sidebar" aria-hidden="true">Ad slot — sidebar, 300×250</div>
+    </div>
+  </div>
+
+  <div class="related">
+    <h3>Other tools in the drawer</h3>
+    <div class="related-links">
+      <a href="list-shuffler.html">List Shuffler</a>
+      <a href="word-counter.html">Word &amp; Character Counter</a>
+      <a href="case-converter.html">Case Converter</a>
+      <a href="../index.html">All tools</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-foot">
+  The Toolbox · Built with plain JS · No accounts, no tracking pixels, just the tool.
+</footer>
+
+<script>
+(function(){
+  function parseLines(text){ return text.split('\n').map(s => s.trim()).filter(Boolean); }
+  function flashStamp(el){ el.classList.remove('show'); void el.offsetWidth; el.classList.add('show'); }
+
+  const pickerInput = document.getElementById('picker-input');
+  const pickerResult = document.getElementById('picker-result');
+  const pickerStamp = document.getElementById('picker-stamp');
+
+  document.getElementById('picker-go').addEventListener('click', () => {
+    const items = parseLines(pickerInput.value);
+    if(!items.length){
+      pickerResult.textContent = 'Add at least one item first.';
+      pickerResult.classList.remove('pick-result');
+      return;
+    }
+    const winner = items[Math.floor(Math.random() * items.length)];
+    pickerResult.innerHTML = '';
+    const span = document.createElement('span');
+    span.className = 'pick-result';
+    span.textContent = winner;
+    pickerResult.appendChild(span);
+    flashStamp(pickerStamp);
+  });
+
+  document.getElementById('picker-clear').addEventListener('click', () => {
+    pickerInput.value = '';
+    pickerResult.textContent = 'Your pick appears here.';
+    pickerResult.classList.remove('pick-result');
+    pickerStamp.classList.remove('show');
+  });
+})();
+</script>
+
+</body>
+</html>

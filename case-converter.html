@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Converter — Sentence, Title, UPPER &amp; lower Case Free</title>
+<meta name="description" content="Convert text to Sentence case, Title Case, UPPERCASE, or lowercase instantly. Free online case converter, no sign-up required.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<nav class="crumb" aria-label="Breadcrumb">
+  <a href="../index.html">The Toolbox</a><span class="sep">/</span><span class="here">Case Converter</span>
+</nav>
+
+<header class="site-head">
+  <div class="wrap">
+    <div class="eyebrow">Tool 04</div>
+    <h1>Case <em>Converter</em></h1>
+    <p class="sub">Fix ALL CAPS emails or lowercase notes in one click.</p>
+  </div>
+</header>
+
+<main class="card-stage">
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>Convert your text</h2>
+        <p>Pick a case style below.</p>
+      </div>
+      <span class="card-tag">04 / no login</span>
+    </div>
+    <label class="field-label" for="caser-input">Your text</label>
+    <textarea id="caser-input" rows="6" placeholder="paste your text here...">this looks like it was typed with the caps lock stuck. fix it below.</textarea>
+    <div class="case-btns">
+      <button class="btn" data-case="sentence">Sentence case</button>
+      <button class="btn" data-case="upper">UPPERCASE</button>
+      <button class="btn" data-case="lower">lowercase</button>
+      <button class="btn" data-case="title">Title Case</button>
+    </div>
+    <div class="output-block">
+      <div class="stamp" id="caser-stamp">Converted</div>
+      <div class="result-box" id="caser-result">Converted text appears here.</div>
+    </div>
+    <div class="row">
+      <button class="btn ghost" id="caser-copy">Copy result</button>
+    </div>
+  </section>
+
+  <div class="ad-zone infeed" aria-hidden="true">Ad slot — in-feed, native</div>
+</main>
+
+<section class="seo-content">
+  <div class="grid">
+    <div>
+      <h2>How the case converter works</h2>
+      <p>Paste your text, then choose Sentence case, UPPERCASE, lowercase, or Title Case. Sentence case capitalizes the first letter after every period, question mark, or exclamation point. Title Case capitalizes major words while keeping short connecting words like "a," "the," and "of" lowercase, matching common headline style.</p>
+      <p>This is handy for cleaning up text that came from somewhere with inconsistent formatting — a pasted email typed in all caps, notes typed without capitals, or a heading that needs proper title casing.</p>
+      <h3>Common uses</h3>
+      <ul>
+        <li>Fixing text typed with caps lock stuck on</li>
+        <li>Formatting headlines and titles consistently</li>
+        <li>Cleaning up pasted text from PDFs or old documents</li>
+        <li>Standardizing capitalization before publishing</li>
+      </ul>
+    </div>
+    <div>
+      <dl class="faq">
+        <h3>FAQ</h3>
+        <dt>What counts as a "minor word" in Title Case?</dt>
+        <dd>Short connecting words like "a," "an," "and," "the," "of," "in," and similar are kept lowercase unless they start the sentence.</dd>
+        <dt>Will this fix punctuation or spelling?</dt>
+        <dd>No — it only changes letter casing, not spelling, spacing, or punctuation.</dd>
+        <dt>Is my text stored anywhere?</dt>
+        <dd>No. Conversion happens locally in your browser and nothing is uploaded.</dd>
+      </dl>
+      <div class="ad-zone sidebar" aria-hidden="true">Ad slot — sidebar, 300×250</div>
+    </div>
+  </div>
+
+  <div class="related">
+    <h3>Other tools in the drawer</h3>
+    <div class="related-links">
+      <a href="random-list-picker.html">Random List Picker</a>
+      <a href="list-shuffler.html">List Shuffler</a>
+      <a href="word-counter.html">Word &amp; Character Counter</a>
+      <a href="../index.html">All tools</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-foot">
+  The Toolbox · Built with plain JS · No accounts, no tracking pixels, just the tool.
+</footer>
+
+<script>
+(function(){
+  function flashStamp(el){ el.classList.remove('show'); void el.offsetWidth; el.classList.add('show'); }
+
+  const caserInput = document.getElementById('caser-input');
+  const caserResult = document.getElementById('caser-result');
+  const caserStamp = document.getElementById('caser-stamp');
+
+  function toSentenceCase(str){
+    const lower = str.toLowerCase();
+    return lower.replace(/(^\s*\w|[.!?]\s+\w)/g, c => c.toUpperCase());
+  }
+  function toTitleCase(str){
+    const minor = new Set(['a','an','and','as','at','but','by','for','in','nor','of','on','or','the','to','with']);
+    return str.toLowerCase().split(' ').map((word, i) => {
+      if(!word) return word;
+      if(i !== 0 && minor.has(word)) return word;
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    }).join(' ');
+  }
+
+  document.querySelectorAll('[data-case]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const text = caserInput.value;
+      let out = text;
+      if(btn.dataset.case === 'sentence') out = toSentenceCase(text);
+      else if(btn.dataset.case === 'upper') out = text.toUpperCase();
+      else if(btn.dataset.case === 'lower') out = text.toLowerCase();
+      else if(btn.dataset.case === 'title') out = toTitleCase(text);
+      caserResult.textContent = out || 'Nothing to convert yet.';
+      flashStamp(caserStamp);
+    });
+  });
+
+  document.getElementById('caser-copy').addEventListener('click', () => {
+    navigator.clipboard?.writeText(caserResult.textContent || '');
+  });
+})();
+</script>
+
+</body>
+</html>
