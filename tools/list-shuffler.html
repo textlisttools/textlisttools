@@ -8,11 +8,31 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../styles.css">
+<link rel="canonical" href="https://quicklisttools.com/tools/list-shuffler.html">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+<link rel="apple-touch-icon" href="../favicon-180.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#14202B">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Quick List Tools">
+<meta property="og:title" content="List Shuffler — Randomize the Order of Any List Free">
+<meta property="og:description" content="Paste a list and shuffle it into a random order. Free online list shuffler for teams, seating charts, running order, and more. No sign-up required.">
+<meta property="og:url" content="https://quicklisttools.com/tools/list-shuffler.html">
+<meta property="og:image" content="https://quicklisttools.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="List Shuffler — Randomize the Order of Any List Free">
+<meta name="twitter:description" content="Paste a list and shuffle it into a random order. Free online list shuffler for teams, seating charts, running order, and more. No sign-up required.">
+<meta name="twitter:image" content="https://quicklisttools.com/og-image.png">
 </head>
 <body>
 
 <nav class="crumb" aria-label="Breadcrumb">
-  <a href="../index.html">The Toolbox</a><span class="sep">/</span><span class="here">List Shuffler</span>
+  <a href="../index.html">Quick List Tools</a><span class="sep">/</span><span class="here">List Shuffler</span>
 </nav>
 
 <header class="site-head">
@@ -96,7 +116,7 @@ Farah</textarea>
 </section>
 
 <footer class="site-foot">
-  The Toolbox · Built with plain JS · No accounts, no tracking pixels, just the tool.
+  Quick List Tools · Built with plain JS · No accounts, no tracking pixels, just the tool.
 </footer>
 
 <script>
@@ -126,6 +146,62 @@ Farah</textarea>
     navigator.clipboard?.writeText(shufflerResult.textContent || '');
   });
 })();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "List Shuffler",
+  "description": "Paste a list and shuffle it into a random order. Free online list shuffler for teams, seating charts, running order, and more. No sign-up required.",
+  "url": "https://quicklisttools.com/tools/list-shuffler.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Quick List Tools",
+    "url": "https://quicklisttools.com/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Will the shuffle ever return the same order I entered?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It's possible, especially with very short lists, since every order (including the original) has an equal chance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I shuffle the same list again?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes \u2014 press \"Shuffle\" again for a fresh random order at any time."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my list stored anywhere?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The shuffle happens entirely in your browser and nothing is saved or sent anywhere."
+      }
+    }
+  ]
+}
 </script>
 
 </body>

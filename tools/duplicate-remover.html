@@ -8,11 +8,31 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../styles.css">
+<link rel="canonical" href="https://quicklisttools.com/tools/duplicate-remover.html">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+<link rel="apple-touch-icon" href="../favicon-180.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#14202B">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Quick List Tools">
+<meta property="og:title" content="Duplicate Line Remover — Remove Duplicate Items from a List Free">
+<meta property="og:description" content="Paste a list and instantly remove duplicate lines. Free duplicate remover with an ignore-case option — no sign-up required.">
+<meta property="og:url" content="https://quicklisttools.com/tools/duplicate-remover.html">
+<meta property="og:image" content="https://quicklisttools.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Duplicate Line Remover — Remove Duplicate Items from a List Free">
+<meta name="twitter:description" content="Paste a list and instantly remove duplicate lines. Free duplicate remover with an ignore-case option — no sign-up required.">
+<meta name="twitter:image" content="https://quicklisttools.com/og-image.png">
 </head>
 <body>
 
 <nav class="crumb" aria-label="Breadcrumb">
-  <a href="../index.html">The Toolbox</a><span class="sep">/</span><span class="here">Duplicate Remover</span>
+  <a href="../index.html">Quick List Tools</a><span class="sep">/</span><span class="here">Duplicate Remover</span>
 </nav>
 
 <header class="site-head">
@@ -109,7 +129,7 @@ Mango</textarea>
 </section>
 
 <footer class="site-foot">
-  The Toolbox · Built with plain JS · No accounts, no tracking pixels, just the tool.
+  Quick List Tools · Built with plain JS · No accounts, no tracking pixels, just the tool.
 </footer>
 
 <script>
@@ -154,6 +174,62 @@ Mango</textarea>
     navigator.clipboard?.writeText(dedupeResult.textContent || '');
   });
 })();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Duplicate Remover",
+  "description": "Paste a list and instantly remove duplicate lines. Free duplicate remover with an ignore-case option \u2014 no sign-up required.",
+  "url": "https://quicklisttools.com/tools/duplicate-remover.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Quick List Tools",
+    "url": "https://quicklisttools.com/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does this remove blank lines too?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes \u2014 empty lines are stripped along with duplicates."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which copy of a duplicate does it keep?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The first one it finds, top to bottom. Everything after it is removed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my list saved anywhere?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Everything runs locally in your browser and nothing is uploaded."
+      }
+    }
+  ]
+}
 </script>
 
 </body>
