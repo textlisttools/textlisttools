@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>List to Comma-Separated Converter — Lines to CSV Free</title>
+<meta name="description" content="Convert a line-by-line list into a comma-separated string, or split comma-separated text back into a list. Free online converter — no sign-up.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<nav class="crumb" aria-label="Breadcrumb">
+  <a href="../index.html">The Toolbox</a><span class="sep">/</span><span class="here">List to CSV Converter</span>
+</nav>
+
+<header class="site-head">
+  <div class="wrap">
+    <div class="eyebrow">Tool 08</div>
+    <h1>List to <em>CSV</em></h1>
+    <p class="sub">Turn a line-by-line list into a comma-separated string — or split one back into a list.</p>
+  </div>
+</header>
+
+<main class="card-stage">
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>Convert your list</h2>
+        <p>Switch between line breaks and separated values, either direction.</p>
+      </div>
+      <span class="card-tag">08 / no login</span>
+    </div>
+    <label class="field-label" for="csv-input">Your list or separated text</label>
+    <textarea id="csv-input" rows="7" placeholder="Alex&#10;Jordan&#10;Sam">Alex
+Jordan
+Sam
+Taylor</textarea>
+
+    <div class="row">
+      <label class="field-label" for="csv-sep" style="margin:0;">Separator</label>
+      <select id="csv-sep" class="field-select">
+        <option value=",">Comma (,)</option>
+        <option value=";">Semicolon (;)</option>
+        <option value="|">Pipe (|)</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <button class="btn rust" id="csv-join">Lines → Separated</button>
+      <button class="btn" id="csv-split">Separated → Lines</button>
+      <button class="btn ghost" id="csv-copy">Copy result</button>
+    </div>
+
+    <div class="output-block">
+      <div class="stamp" id="csv-stamp">Converted</div>
+      <div class="result-box" id="csv-result">Your converted list appears here.</div>
+    </div>
+  </section>
+
+  <div class="ad-zone infeed" aria-hidden="true"></div>
+</main>
+
+<section class="seo-content">
+  <div class="grid">
+    <div>
+      <h2>How the list to CSV converter works</h2>
+      <p>Paste a list — one item per line — and press "Lines → Separated" to join it into a single string using whichever separator you pick: comma, semicolon, or pipe. Or paste an already-separated string and press "Separated → Lines" to break it back into one item per line.</p>
+      <p>Handy for moving data between formats — pasting names into a spreadsheet formula, building a SQL IN() list, or turning a CSV export back into a readable list.</p>
+      <h3>Common uses</h3>
+      <ul>
+        <li>Building a comma-separated value for a spreadsheet formula or SQL query</li>
+        <li>Converting an exported CSV column back into a line-by-line list</li>
+        <li>Formatting a list of tags, emails, or IDs for a form field</li>
+        <li>Prepping a list for a script or API that expects one format or the other</li>
+      </ul>
+    </div>
+    <div>
+      <dl class="faq">
+        <h3>FAQ</h3>
+        <dt>What separators are supported?</dt>
+        <dd>Comma, semicolon, and pipe ( | ). Pick the one you need from the dropdown before converting.</dd>
+        <dt>Does it trim extra spaces?</dt>
+        <dd>Yes — spaces around each item are trimmed automatically in both directions.</dd>
+        <dt>Is my data saved anywhere?</dt>
+        <dd>No. Conversion happens locally in your browser and nothing is uploaded.</dd>
+      </dl>
+      <div class="ad-zone sidebar" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <div class="related">
+    <h3>Other tools in the drawer</h3>
+    <div class="related-links">
+      <a href="random-list-picker.html">Random List Picker</a>
+      <a href="list-shuffler.html">List Shuffler</a>
+      <a href="spin-wheel.html">Spinning Wheel</a>
+      <a href="duplicate-remover.html">Duplicate Remover</a>
+      <a href="list-sorter.html">List Sorter</a>
+      <a href="word-counter.html">Word &amp; Character Counter</a>
+      <a href="case-converter.html">Case Converter</a>
+      <a href="../index.html">All tools</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-foot">
+  The Toolbox · Built with plain JS · No accounts, no tracking pixels, just the tool.
+</footer>
+
+<script>
+(function(){
+  function flashStamp(el){ el.classList.remove('show'); void el.offsetWidth; el.classList.add('show'); }
+
+  const csvInput = document.getElementById('csv-input');
+  const csvResult = document.getElementById('csv-result');
+  const csvStamp = document.getElementById('csv-stamp');
+  const csvSep = document.getElementById('csv-sep');
+
+  document.getElementById('csv-join').addEventListener('click', () => {
+    const items = csvInput.value.split('\n').map(s => s.trim()).filter(Boolean);
+    if(!items.length){
+      csvResult.textContent = 'Add at least one item first.';
+      return;
+    }
+    csvResult.textContent = items.join(csvSep.value + ' ');
+    flashStamp(csvStamp);
+  });
+
+  document.getElementById('csv-split').addEventListener('click', () => {
+    const text = csvInput.value.trim();
+    if(!text){
+      csvResult.textContent = 'Add some separated text first.';
+      return;
+    }
+    const parts = text.split(csvSep.value).map(s => s.trim()).filter(Boolean);
+    csvResult.textContent = parts.join('\n');
+    flashStamp(csvStamp);
+  });
+
+  document.getElementById('csv-copy').addEventListener('click', () => {
+    navigator.clipboard?.writeText(csvResult.textContent || '');
+  });
+})();
+</script>
+
+</body>
+</html>
