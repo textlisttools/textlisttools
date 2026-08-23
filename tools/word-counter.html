@@ -8,11 +8,31 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../styles.css">
+<link rel="canonical" href="https://quicklisttools.com/tools/word-counter.html">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+<link rel="apple-touch-icon" href="../favicon-180.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#14202B">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Quick List Tools">
+<meta property="og:title" content="Word &amp; Character Counter — Free Live Text Counter">
+<meta property="og:description" content="Count words, characters, sentences, and estimated read time as you type. Free live word and character counter with no sign-up.">
+<meta property="og:url" content="https://quicklisttools.com/tools/word-counter.html">
+<meta property="og:image" content="https://quicklisttools.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Word &amp; Character Counter — Free Live Text Counter">
+<meta name="twitter:description" content="Count words, characters, sentences, and estimated read time as you type. Free live word and character counter with no sign-up.">
+<meta name="twitter:image" content="https://quicklisttools.com/og-image.png">
 </head>
 <body>
 
 <nav class="crumb" aria-label="Breadcrumb">
-  <a href="../index.html">The Toolbox</a><span class="sep">/</span><span class="here">Word &amp; Character Counter</span>
+  <a href="../index.html">Quick List Tools</a><span class="sep">/</span><span class="here">Word &amp; Character Counter</span>
 </nav>
 
 <header class="site-head">
@@ -90,7 +110,7 @@
 </section>
 
 <footer class="site-foot">
-  The Toolbox · Built with plain JS · No accounts, no tracking pixels, just the tool.
+  Quick List Tools · Built with plain JS · No accounts, no tracking pixels, just the tool.
 </footer>
 
 <script>
@@ -119,6 +139,62 @@
   counterInput.addEventListener('input', updateCounts);
   updateCounts();
 })();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Word & Character Counter",
+  "description": "Count words, characters, sentences, and estimated read time as you type. Free live word and character counter with no sign-up.",
+  "url": "https://quicklisttools.com/tools/word-counter.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Quick List Tools",
+    "url": "https://quicklisttools.com/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is read time calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Using an average reading speed of 200 words per minute, rounded to the nearest second or minute."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is a sentence counted?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The tool counts groups of text ending in a period, question mark, or exclamation point."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my text saved anywhere?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No \u2014 counting happens locally in your browser and nothing is uploaded."
+      }
+    }
+  ]
+}
 </script>
 
 </body>
