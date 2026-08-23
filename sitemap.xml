@@ -2,31 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
-    <loc>https://www.yourdomain.com/</loc>
+    <loc>https://quicklisttools.com/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
-    <loc>https://www.yourdomain.com/tools/random-list-picker.html</loc>
+    <loc>https://quicklisttools.com/tools/random-list-picker.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://www.yourdomain.com/tools/list-shuffler.html</loc>
+    <loc>https://quicklisttools.com/tools/list-shuffler.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://www.yourdomain.com/tools/word-counter.html</loc>
+    <loc>https://quicklisttools.com/tools/word-counter.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://www.yourdomain.com/tools/case-converter.html</loc>
+    <loc>https://quicklisttools.com/tools/case-converter.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
