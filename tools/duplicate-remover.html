@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Duplicate Line Remover — Remove Duplicate Items from a List Free</title>
+<meta name="description" content="Paste a list and instantly remove duplicate lines. Free duplicate remover with an ignore-case option — no sign-up required.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<nav class="crumb" aria-label="Breadcrumb">
+  <a href="../index.html">The Toolbox</a><span class="sep">/</span><span class="here">Duplicate Remover</span>
+</nav>
+
+<header class="site-head">
+  <div class="wrap">
+    <div class="eyebrow">Tool 06</div>
+    <h1>Duplicate <em>Remover</em></h1>
+    <p class="sub">Paste a list and strip out any repeated lines in one click.</p>
+  </div>
+</header>
+
+<main class="card-stage">
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>Remove duplicate lines</h2>
+        <p>Keeps the first time each item appears, drops the rest.</p>
+      </div>
+      <span class="card-tag">06 / no login</span>
+    </div>
+    <label class="field-label" for="dedupe-input">Your list (one per line)</label>
+    <textarea id="dedupe-input" rows="7" placeholder="Apples&#10;Bananas&#10;Apples">Apples
+Bananas
+Apples
+Grapes
+Bananas
+Mango</textarea>
+
+    <label class="check-row">
+      <input type="checkbox" id="dedupe-ignore-case">
+      Ignore case (treat "Apples" and "apples" as duplicates)
+    </label>
+
+    <div class="row">
+      <button class="btn rust" id="dedupe-go">Remove duplicates</button>
+      <button class="btn ghost" id="dedupe-copy">Copy result</button>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat"><div class="n" id="stat-original">0</div><div class="l">Original lines</div></div>
+      <div class="stat"><div class="n" id="stat-unique">0</div><div class="l">Unique lines</div></div>
+      <div class="stat"><div class="n" id="stat-removed">0</div><div class="l">Duplicates removed</div></div>
+    </div>
+
+    <div class="output-block">
+      <div class="stamp" id="dedupe-stamp">Cleaned</div>
+      <div class="result-box" id="dedupe-result">Your cleaned list appears here.</div>
+    </div>
+  </section>
+
+  <div class="ad-zone infeed" aria-hidden="true"></div>
+</main>
+
+<section class="seo-content">
+  <div class="grid">
+    <div>
+      <h2>How the duplicate remover works</h2>
+      <p>Paste your list, one entry per line, and press "Remove duplicates." The tool keeps the first time each line appears and deletes every repeat after it, so your original order stays intact.</p>
+      <p>Turn on "Ignore case" if entries like "Apples" and "apples" should count as the same item. Leave it off if capitalization matters for what you're comparing.</p>
+      <h3>Common uses</h3>
+      <ul>
+        <li>Cleaning up an email list before a mail merge</li>
+        <li>Removing repeat entries from a giveaway or raffle list</li>
+        <li>De-duplicating tags, keywords, or category names</li>
+        <li>Tidying a copy-pasted list from a spreadsheet or PDF</li>
+      </ul>
+    </div>
+    <div>
+      <dl class="faq">
+        <h3>FAQ</h3>
+        <dt>Does this remove blank lines too?</dt>
+        <dd>Yes — empty lines are stripped along with duplicates.</dd>
+        <dt>Which copy of a duplicate does it keep?</dt>
+        <dd>The first one it finds, top to bottom. Everything after it is removed.</dd>
+        <dt>Is my list saved anywhere?</dt>
+        <dd>No. Everything runs locally in your browser and nothing is uploaded.</dd>
+      </dl>
+      <div class="ad-zone sidebar" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <div class="related">
+    <h3>Other tools in the drawer</h3>
+    <div class="related-links">
+      <a href="random-list-picker.html">Random List Picker</a>
+      <a href="list-shuffler.html">List Shuffler</a>
+      <a href="spin-wheel.html">Spinning Wheel</a>
+      <a href="list-sorter.html">List Sorter</a>
+      <a href="word-counter.html">Word &amp; Character Counter</a>
+      <a href="case-converter.html">Case Converter</a>
+      <a href="list-to-csv.html">List to CSV Converter</a>
+      <a href="../index.html">All tools</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-foot">
+  The Toolbox · Built with plain JS · No accounts, no tracking pixels, just the tool.
+</footer>
+
+<script>
+(function(){
+  function parseLines(text){ return text.split('\n').map(s => s.trim()).filter(Boolean); }
+  function flashStamp(el){ el.classList.remove('show'); void el.offsetWidth; el.classList.add('show'); }
+
+  const dedupeInput = document.getElementById('dedupe-input');
+  const dedupeResult = document.getElementById('dedupe-result');
+  const dedupeStamp = document.getElementById('dedupe-stamp');
+  const ignoreCase = document.getElementById('dedupe-ignore-case');
+  const statOriginal = document.getElementById('stat-original');
+  const statUnique = document.getElementById('stat-unique');
+  const statRemoved = document.getElementById('stat-removed');
+
+  document.getElementById('dedupe-go').addEventListener('click', () => {
+    const original = parseLines(dedupeInput.value);
+    if(!original.length){
+      dedupeResult.textContent = 'Add at least one item first.';
+      statOriginal.textContent = 0;
+      statUnique.textContent = 0;
+      statRemoved.textContent = 0;
+      return;
+    }
+    const seen = new Set();
+    const unique = [];
+    original.forEach(line => {
+      const key = ignoreCase.checked ? line.toLowerCase() : line;
+      if(!seen.has(key)){
+        seen.add(key);
+        unique.push(line);
+      }
+    });
+    statOriginal.textContent = original.length;
+    statUnique.textContent = unique.length;
+    statRemoved.textContent = original.length - unique.length;
+    dedupeResult.textContent = unique.join('\n');
+    flashStamp(dedupeStamp);
+  });
+
+  document.getElementById('dedupe-copy').addEventListener('click', () => {
+    navigator.clipboard?.writeText(dedupeResult.textContent || '');
+  });
+})();
+</script>
+
+</body>
+</html>

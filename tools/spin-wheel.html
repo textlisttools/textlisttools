@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spinning Wheel Picker — Random Wheel for Names &amp; Prizes Free</title>
+<meta name="description" content="Paste a list and spin a wheel to pick a random winner. Free spinning wheel picker for raffles, games, and giveaways — no sign-up required.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<nav class="crumb" aria-label="Breadcrumb">
+  <a href="../index.html">The Toolbox</a><span class="sep">/</span><span class="here">Spinning Wheel</span>
+</nav>
+
+<header class="site-head">
+  <div class="wrap">
+    <div class="eyebrow">Tool 05</div>
+    <h1>Spinning <em>Wheel</em></h1>
+    <p class="sub">Paste your list, spin the wheel, and watch it land on a winner.</p>
+  </div>
+</header>
+
+<main class="card-stage">
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>Spin for a winner</h2>
+        <p>Works for names, prizes, dares — anything you can list.</p>
+      </div>
+      <span class="card-tag">05 / no login</span>
+    </div>
+    <label class="field-label" for="wheel-input">Your list (one per line)</label>
+    <textarea id="wheel-input" rows="6" placeholder="Pizza&#10;Tacos&#10;Sushi">Pizza
+Tacos
+Sushi
+Ramen
+Burgers
+Salad</textarea>
+
+    <div class="wheel-wrap">
+      <div class="wheel-frame">
+        <div class="wheel-pointer" aria-hidden="true"></div>
+        <canvas id="wheel-canvas" class="wheel-canvas" width="340" height="340" aria-label="Spinning wheel of your list items"></canvas>
+      </div>
+    </div>
+
+    <div class="row">
+      <button class="btn rust" id="wheel-spin">Spin the wheel</button>
+      <button class="btn ghost" id="wheel-clear">Clear</button>
+    </div>
+    <div class="output-block">
+      <div class="stamp" id="wheel-stamp">Winner</div>
+      <div class="result-box" id="wheel-result">Your winner appears here.</div>
+    </div>
+  </section>
+
+  <div class="ad-zone infeed" aria-hidden="true"></div>
+</main>
+
+<section class="seo-content">
+  <div class="grid">
+    <div>
+      <h2>How the spinning wheel picker works</h2>
+      <p>Paste your list, one entry per line, and press "Spin the wheel." The wheel splits into equal slices — one per item — and spins to a random stop under the pointer at the top. Whichever slice lands there is your winner.</p>
+      <p>Every item gets exactly the same odds regardless of slice size or position on the wheel. It's the same random pick as the list picker tool, just with an actual spin to watch play out.</p>
+      <h3>Common uses</h3>
+      <ul>
+        <li>Picking a winner live during a raffle, stream, or classroom activity</li>
+        <li>Deciding what to eat, watch, or do next</li>
+        <li>Assigning a random task, chore, or turn order with a bit of suspense</li>
+        <li>Running a spin-to-win style giveaway</li>
+      </ul>
+    </div>
+    <div>
+      <dl class="faq">
+        <h3>FAQ</h3>
+        <dt>Is every item equally likely to win?</dt>
+        <dd>Yes. Each entry gets an equal slice of the wheel and an equal chance, no matter how long the spin looks.</dd>
+        <dt>How many items can I add?</dt>
+        <dd>There's no hard limit, but wheels with more than 15–20 items get hard to read since the slices get thin.</dd>
+        <dt>Is my list saved anywhere?</dt>
+        <dd>No. The wheel is drawn and spun entirely in your browser — nothing is uploaded or stored.</dd>
+      </dl>
+      <div class="ad-zone sidebar" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <div class="related">
+    <h3>Other tools in the drawer</h3>
+    <div class="related-links">
+      <a href="random-list-picker.html">Random List Picker</a>
+      <a href="list-shuffler.html">List Shuffler</a>
+      <a href="duplicate-remover.html">Duplicate Remover</a>
+      <a href="list-sorter.html">List Sorter</a>
+      <a href="word-counter.html">Word &amp; Character Counter</a>
+      <a href="case-converter.html">Case Converter</a>
+      <a href="list-to-csv.html">List to CSV Converter</a>
+      <a href="../index.html">All tools</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-foot">
+  The Toolbox · Built with plain JS · No accounts, no tracking pixels, just the tool.
+</footer>
+
+<script>
+(function(){
+  function parseLines(text){ return text.split('\n').map(s => s.trim()).filter(Boolean); }
+  function flashStamp(el){ el.classList.remove('show'); void el.offsetWidth; el.classList.add('show'); }
+
+  const wheelInput = document.getElementById('wheel-input');
+  const wheelResult = document.getElementById('wheel-result');
+  const wheelStamp = document.getElementById('wheel-stamp');
+  const spinBtn = document.getElementById('wheel-spin');
+  const canvas = document.getElementById('wheel-canvas');
+  const ctx = canvas.getContext('2d');
+
+  const size = canvas.width;
+  const cx = size / 2, cy = size / 2, radius = size / 2 - 6;
+  const palette = ['#B33A3A', '#3E6259', '#E8D9B5', '#1C2C3A'];
+
+  let items = [];
+  let currentRotation = 0;
+  let spinning = false;
+
+  function textColorFor(bg){
+    return bg === '#E8D9B5' ? '#14202B' : '#F2ECDD';
+  }
+
+  function drawWheel(){
+    ctx.clearRect(0, 0, size, size);
+    const n = items.length;
+    if(!n){
+      ctx.fillStyle = 'rgba(20,32,43,0.08)';
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+      ctx.fill();
+      return;
+    }
+    const slice = (Math.PI * 2) / n;
+    for(let i = 0; i < n; i++){
+      const start = -Math.PI / 2 + i * slice;
+      const end = start + slice;
+      const color = palette[i % palette.length];
+
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, radius, start, end);
+      ctx.closePath();
+      ctx.fillStyle = color;
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(20,32,43,0.35)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(start + slice / 2);
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = textColorFor(color);
+      const fontSize = n > 14 ? 10 : n > 8 ? 12 : 14;
+      ctx.font = '600 ' + fontSize + 'px "IBM Plex Mono", monospace';
+      const maxChars = n > 14 ? 10 : n > 8 ? 14 : 20;
+      let label = items[i];
+      if(label.length > maxChars) label = label.slice(0, maxChars - 1) + '…';
+      ctx.fillText(label, radius - 14, 0);
+      ctx.restore();
+    }
+  }
+
+  function syncItems(){
+    items = parseLines(wheelInput.value);
+    drawWheel();
+  }
+
+  wheelInput.addEventListener('input', syncItems);
+  syncItems();
+
+  spinBtn.addEventListener('click', () => {
+    if(spinning) return;
+    syncItems();
+    const n = items.length;
+    if(n < 2){
+      wheelResult.textContent = 'Add at least two items to spin.';
+      wheelResult.classList.remove('pick-result');
+      return;
+    }
+
+    spinning = true;
+    spinBtn.disabled = true;
+    wheelStamp.classList.remove('show');
+    wheelResult.textContent = 'Spinning…';
+    wheelResult.classList.remove('pick-result');
+
+    const winnerIndex = Math.floor(Math.random() * n);
+    const sliceDeg = 360 / n;
+    const centerAngle = (winnerIndex + 0.5) * sliceDeg;
+    const targetMod = (360 - centerAngle) % 360;
+    const extraSpins = 360 * (6 + Math.floor(Math.random() * 3));
+    const curMod = ((currentRotation % 360) + 360) % 360;
+    const delta = (targetMod - curMod + 360) % 360;
+    currentRotation += extraSpins + delta;
+
+    canvas.style.transition = 'transform 4.2s cubic-bezier(0.15,0.65,0.1,1)';
+    canvas.style.transform = 'rotate(' + currentRotation + 'deg)';
+
+    setTimeout(() => {
+      spinning = false;
+      spinBtn.disabled = false;
+      wheelResult.innerHTML = '';
+      const span = document.createElement('span');
+      span.className = 'pick-result';
+      span.textContent = items[winnerIndex];
+      wheelResult.appendChild(span);
+      flashStamp(wheelStamp);
+    }, 4300);
+  });
+
+  document.getElementById('wheel-clear').addEventListener('click', () => {
+    if(spinning) return;
+    wheelInput.value = '';
+    syncItems();
+    wheelResult.textContent = 'Your winner appears here.';
+    wheelResult.classList.remove('pick-result');
+    wheelStamp.classList.remove('show');
+    currentRotation = 0;
+    canvas.style.transition = 'none';
+    canvas.style.transform = 'rotate(0deg)';
+  });
+})();
+</script>
+
+</body>
+</html>

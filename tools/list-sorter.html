@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>List Sorter — Alphabetize a List A-Z or Z-A Free</title>
+<meta name="description" content="Paste a list and sort it A to Z or Z to A instantly. Free online list alphabetizer with natural number sorting — no sign-up required.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<nav class="crumb" aria-label="Breadcrumb">
+  <a href="../index.html">The Toolbox</a><span class="sep">/</span><span class="here">List Sorter</span>
+</nav>
+
+<header class="site-head">
+  <div class="wrap">
+    <div class="eyebrow">Tool 07</div>
+    <h1>List <em>Sorter</em></h1>
+    <p class="sub">Paste a list and alphabetize it in either direction, one click.</p>
+  </div>
+</header>
+
+<main class="card-stage">
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>Sort your list</h2>
+        <p>Handles numbers naturally, so "item 2" comes before "item 10."</p>
+      </div>
+      <span class="card-tag">07 / no login</span>
+    </div>
+    <label class="field-label" for="sorter-input">Your list (one per line)</label>
+    <textarea id="sorter-input" rows="7" placeholder="Zebra&#10;Apple&#10;Mango">Zebra
+Item 10
+Apple
+Item 2
+Mango</textarea>
+    <div class="row">
+      <button class="btn rust" id="sorter-az">A → Z</button>
+      <button class="btn" id="sorter-za">Z → A</button>
+      <button class="btn ghost" id="sorter-copy">Copy result</button>
+    </div>
+    <div class="output-block">
+      <div class="stamp" id="sorter-stamp">Sorted</div>
+      <div class="result-box" id="sorter-result">Your sorted list appears here.</div>
+    </div>
+  </section>
+
+  <div class="ad-zone infeed" aria-hidden="true"></div>
+</main>
+
+<section class="seo-content">
+  <div class="grid">
+    <div>
+      <h2>How the list sorter works</h2>
+      <p>Paste your list, one entry per line, then press "A → Z" or "Z → A." The tool sorts alphabetically and treats numbers naturally, so "Item 2" sorts before "Item 10" instead of after, and it ignores capitalization so "apple" and "Apple" sit next to each other.</p>
+      <p>Nothing is added or removed — you get the same items back in alphabetical order, ready to copy.</p>
+      <h3>Common uses</h3>
+      <ul>
+        <li>Alphabetizing a guest list, roster, or contact list</li>
+        <li>Sorting product names, SKUs, or file names for review</li>
+        <li>Putting a randomly ordered or shuffled list back into a predictable order</li>
+        <li>Prepping a list for a spreadsheet or document that expects A-Z order</li>
+      </ul>
+    </div>
+    <div>
+      <dl class="faq">
+        <h3>FAQ</h3>
+        <dt>Does it sort numbers correctly?</dt>
+        <dd>Yes — it uses natural number sorting, so "Item 9" comes before "Item 10" instead of after it.</dd>
+        <dt>Does capitalization affect the sort order?</dt>
+        <dd>No — sorting ignores case, so "apple" and "Apple" are treated the same.</dd>
+        <dt>Is my list saved anywhere?</dt>
+        <dd>No. Sorting happens locally in your browser and nothing is uploaded.</dd>
+      </dl>
+      <div class="ad-zone sidebar" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <div class="related">
+    <h3>Other tools in the drawer</h3>
+    <div class="related-links">
+      <a href="random-list-picker.html">Random List Picker</a>
+      <a href="list-shuffler.html">List Shuffler</a>
+      <a href="spin-wheel.html">Spinning Wheel</a>
+      <a href="duplicate-remover.html">Duplicate Remover</a>
+      <a href="word-counter.html">Word &amp; Character Counter</a>
+      <a href="case-converter.html">Case Converter</a>
+      <a href="list-to-csv.html">List to CSV Converter</a>
+      <a href="../index.html">All tools</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-foot">
+  The Toolbox · Built with plain JS · No accounts, no tracking pixels, just the tool.
+</footer>
+
+<script>
+(function(){
+  function parseLines(text){ return text.split('\n').map(s => s.trim()).filter(Boolean); }
+  function flashStamp(el){ el.classList.remove('show'); void el.offsetWidth; el.classList.add('show'); }
+
+  const sorterInput = document.getElementById('sorter-input');
+  const sorterResult = document.getElementById('sorter-result');
+  const sorterStamp = document.getElementById('sorter-stamp');
+  const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+
+  function sortItems(direction){
+    const items = parseLines(sorterInput.value);
+    if(!items.length){
+      sorterResult.textContent = 'Add at least one item first.';
+      return;
+    }
+    items.sort(collator.compare);
+    if(direction === 'desc') items.reverse();
+    sorterResult.textContent = items.join('\n');
+    flashStamp(sorterStamp);
+  }
+
+  document.getElementById('sorter-az').addEventListener('click', () => sortItems('asc'));
+  document.getElementById('sorter-za').addEventListener('click', () => sortItems('desc'));
+  document.getElementById('sorter-copy').addEventListener('click', () => {
+    navigator.clipboard?.writeText(sorterResult.textContent || '');
+  });
+})();
+</script>
+
+</body>
+</html>

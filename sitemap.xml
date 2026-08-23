@@ -31,4 +31,28 @@
     <priority>0.8</priority>
   </url>
 
+  <url>
+    <loc>https://quicklisttools.com/tools/spin-wheel.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://quicklisttools.com/tools/duplicate-remover.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://quicklisttools.com/tools/list-sorter.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://quicklisttools.com/tools/list-to-csv.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
 </urlset>
