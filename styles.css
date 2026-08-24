@@ -178,7 +178,7 @@ h1 em{
   white-space:nowrap;
 }
 
-textarea, input[type=text]{
+textarea, input[type=text], input[type=number]{
   width:100%;
   font-family:'IBM Plex Mono', monospace;
   font-size:14px;
@@ -190,7 +190,7 @@ textarea, input[type=text]{
   resize:vertical;
   line-height:1.5;
 }
-textarea:focus, input[type=text]:focus, button:focus-visible, a:focus-visible{
+textarea:focus, input[type=text]:focus, input[type=number]:focus, button:focus-visible, a:focus-visible{
   outline:2px solid var(--teal);
   outline-offset:2px;
 }
@@ -294,6 +294,15 @@ button.btn.rust:hover{ background:#9c3232; }
 }
 
 .case-btns{ display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+
+.dual-input{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+@media (max-width:640px){
+  .dual-input{ grid-template-columns:1fr; }
+}
 
 .check-row{
   display:flex;
