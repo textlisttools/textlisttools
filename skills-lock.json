@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "clipify": {
+      "source": "louisedesadeleer/clipify",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "dcc9fa55382b92f4e9d792981a2871a41bd82af5ebb702af6a2afa83f9c5305d"
+    }
+  }
+}
