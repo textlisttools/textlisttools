@@ -22,6 +22,7 @@ If the user says "I'm not talking in this," you're in action mode. If they say "
 - A video file path (the user will provide it; otherwise ask)
 - Optional: requested format (9:16, 16:9, 1:1) — if not given, ask after candidates are picked
 - Optional: subtitle style preference — if not given, ask before captioning
+- Optional: background music — a local audio file, or a TikTok sound to attach at post time (Step 5b)
 
 ## Tooling (use only the fastest path)
 
@@ -34,6 +35,7 @@ If the user says "I'm not talking in this," you're in action mode. If they say "
   - `build_ass.py` — opus-style ASS captions from whisper JSON
   - `audio_align.py` — find offset of a sub-clip in a longer source
   - `detect_transients.py` — find sharp impact sounds (action mode); see `--help`
+  - `add_music.py` — mix a background track under a clip, with optional voice ducking (Step 5b)
 
 Working dir: `/tmp/clipify/` (mkdir at start, leave artifacts for debugging).
 
@@ -221,6 +223,37 @@ Burn captions:
 ffmpeg -y -i /tmp/clipify/clip_panned.mp4 -vf "subtitles=/tmp/clipify/captions.ass" \
   -c:v libx264 -preset fast -crf 20 -c:a copy "$OUTPUT.mp4"
 ```
+
+### Step 5b — Background music (optional)
+
+Only if the user asked for music. Run it last, after captions — it stream-copies video, so it's instant. Two routes:
+
+**(a) Bake a track into the file** — works for every platform. The user supplies the audio file (mp3/wav/m4a); only use tracks they own or have licensed. Don't download sounds from TikTok, YouTube, etc. to burn in — popular sounds are copyrighted, and business accounts get muted or struck for it.
+
+```bash
+# Dialogue: music sits under the voice and dips while anyone talks
+python3 <skill-dir>/scripts/add_music.py "$OUTPUT.mp4" "$MUSIC" "$OUTPUT_music.mp4" \
+  --music-start 0 --music-vol 0.25 --duck
+
+# Action montage: louder beat, no ducking (strikes would make the music pump)
+python3 <skill-dir>/scripts/add_music.py "$OUTPUT.mp4" "$MUSIC" "$OUTPUT_music.mp4" --music-vol 0.5
+
+# Music only, original audio dropped
+python3 <skill-dir>/scripts/add_music.py "$OUTPUT.mp4" "$MUSIC" "$OUTPUT_music.mp4" --mute-original --music-vol 1.0
+```
+
+- `--music-start` skips into the track — set it to the hook/drop so the clip opens on the best part.
+- Track shorter than the clip → it loops. Fades in/out (`--fade`, default 0.8s) are automatic.
+- Action mode: if the user wants cuts on the beat rather than on strikes, run `detect_transients.py` on the music (`--band 200:2000` for kicks) and snap shot boundaries to those times.
+
+**(b) Attach a real TikTok sound at post time** — the licensed way to use trending TikTok audio. Requires the Higgsfield connector with a linked TikTok account.
+
+1. `tiktok_accounts` → pick the account (`connector_id`).
+2. `tiktok_music_trending` (filters: `genre`, `country_code`, `date_range`; no keyword search) → show tracks with listen links. These come from TikTok's Commercial Music Library, so they're cleared for business accounts too.
+3. Upload the final clip to Higgsfield (`media_upload` → PUT → `media_confirm`); TikTok only accepts Higgsfield-hosted URLs.
+4. `tiktok_prepare_publish` with `mode: DIRECT_POST` → the user picks and trims the sound and sets volumes in the publish form, then submits. Music is **not** kept on `UPLOAD_TO_DRAFT`.
+
+Render without baked-in music for route (b) — otherwise both tracks play. Keep the clip's own audio at a level that sits under music (TikTok's form sets the original/music balance).
 
 ### Step 6 — Deliver
 
